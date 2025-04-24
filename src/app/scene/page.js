@@ -34,13 +34,38 @@ export default function MeshScene() {
                 </div>
             </div>
             <div className="divider divider-neutral">3D-Environment</div>
-            <div className="card bg-accent rounded-box place-items-center shadow-lg">
+            <div className="glass bg-accent rounded-box place-items-center shadow-lg">
                 <div className="p-2 text-xl text-primary-content font-bold">
                     Scene Panel
                 </div>
                 <div className="w-full">
                     <PLYInput />
                     <LoadScene />
+                </div>
+            </div>
+            <div className="divider divider-neutral">IFC-Environment</div>
+            <div className="card bg-info rounded-box place-items-center shadow-lg">
+                <div className="p-2 text-xl text-info-content font-bold">
+                    IFC-Environment
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full p-2">
+                    <div className="flex justify-center md:justify-start items-center">
+                        <ul className="steps md:steps-vertical steps-accent">
+                            <li className="step step-success">BIM Upload</li>
+                            <li className="step step-success">Structure Parsing</li>
+                            <li className="step">Scene Analysis</li>
+                            <li className="step">Report Generation</li>
+                        </ul>
+                    </div>
+                    <div className="card bg-base-100 shadow-xl">
+                        <div className="card-body">
+                            <h2 className="card-title">处理详情</h2>
+                            <p>在这里显示当前步骤的详细信息</p>
+                            <div className="card-actions justify-end">
+                                <button className="btn btn-primary">查看详情</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

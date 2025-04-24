@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { create } from 'zustand'
+import Link from 'next/link'
+
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -22,9 +23,12 @@ export default function Home() {
             >
               点击 {count} 次
             </button>
-            <a href="/dashboard" className="btn btn-secondary">
-              查看仪表盘
-            </a>
+            <Link href="/dashboard" className="btn btn-secondary">
+                查看仪表盘
+            </Link>
+            <Link href="/scene" className="btn btn-secondary">
+                查看场景图
+            </Link>
           </div>
         </div>
         <div className="divider divider-secondary max-w-4xl">OR</div>
