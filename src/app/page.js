@@ -16,27 +16,28 @@ export default function Home() {
           <p className="text-primary-content/50">
             保存文件后即可看到更改
           </p>
-          <div className="mt-4 space-x-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 mt-4 space-x-4">
             <button
               onClick={() => setCount(count + 1)}
-              className="btn btn-neutral"
+              className="btn btn-neutral m-2 shadow-lg"
             >
               点击 {count} 次
             </button>
-            <Link href="/dashboard" className="btn btn-secondary">
+            <Link href="/dashboard" className="btn btn-warning m-2 shadow-lg">
                 查看仪表盘
             </Link>
-            <Link href="/scene" className="btn btn-secondary">
+            <Link href="/scene" className="btn btn-accent m-2 shadow-lg">
                 查看场景图
+            </Link>
+            <Link href="/chatroom" className="btn btn-info m-2 shadow-lg">
+                查看聊天室
             </Link>
           </div>
         </div>
         <div className="divider divider-secondary max-w-4xl">OR</div>
-        <div className="card max-w-4xl bg-primary rounded-box grid h-20 place-items-center" >
-          <div className="text-primary-content">  
-            <div className="text-primary-content">BIM File Input</div>
-            <input type="file" className="file-input file-input-sm file-input-secondary" />
-          </div>
+        <div className="card max-w-4xl bg-secondary rounded-box grid place-items-center" >
+          <div className="text-primary-content mt-2 font-bold">BIM File Input</div>
+          <input type="file" className="m-2 file-input file-input-md file-input-accent" />
         </div>
         <div className="divider divider-secondary max-w-4xl">OR</div>
         <fieldset className="fieldset">
