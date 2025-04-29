@@ -12,6 +12,7 @@ const useChatStore = create((set) => ({
     })),
     setInputMessage: (inputMessage) => set({ inputMessage }),
     setConnectionStatus: (connectionStatus) => set({ connectionStatus }),
+    setWsUrl: (wsUrl) => set({ wsUrl }),
 
     clearState: () => set({ 
         messages: [],

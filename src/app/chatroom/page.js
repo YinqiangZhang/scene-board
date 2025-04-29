@@ -14,7 +14,8 @@ export default function WebSocketTest() {
     setInputMessage,
     setConnectionStatus,
     clearState,
-    wsUrl
+    wsUrl,
+    setWsUrl
   } = useChatStore();
 
   const {setPoseData} = useCameraStore();
