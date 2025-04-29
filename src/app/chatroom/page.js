@@ -2,6 +2,8 @@
 
 import {useEffect, useRef } from 'react';
 import useChatStore from '@/app/store/chatStore';
+import useCameraStore from '@/app/store/cameraStore';
+import CameraScene from '@/app/components/CameraScene';
 
 export default function WebSocketTest() {
   const {
@@ -11,8 +13,11 @@ export default function WebSocketTest() {
     setMessages,
     setInputMessage,
     setConnectionStatus,
-    clearState
+    clearState,
+    wsUrl
   } = useChatStore();
+
+  const {setPoseData} = useCameraStore();
 
   const ws = useRef(null);
 
@@ -30,8 +35,7 @@ export default function WebSocketTest() {
       ws.current.close();
     }
 
-    // 这里使用 wss://echo.websocket.org 作为测试服务器
-    ws.current = new WebSocket('wss://echo.websocket.org');
+    ws.current = new WebSocket(wsUrl);
 
     ws.current.onopen = () => {
       setConnectionStatus('已连接');
@@ -69,7 +73,21 @@ export default function WebSocketTest() {
   };
 
   const addMessage = (sender, message) => {
-    // console.log('Current messages:', messages); // 调试日志
+    // 如果是服务器发送的消息，尝试解析为 poseData
+    if (sender === '服务器') {
+      try {
+        const data = JSON.parse(message);
+        if (data && data.position && data.orientation) {
+          setPoseData(data);
+          // console.log('从服务器接收到 poseData:', data);
+          // return; // 如果是 poseData，不添加到消息列表
+        }
+      } catch (e) {
+        // 如果不是有效的 JSON，继续作为普通消息处理
+      }
+    }
+    
+    // 添加普通消息到消息列表
     setMessages([{sender, message, timestamp: new Date().toLocaleTimeString()}]);
   };
 
@@ -79,7 +97,16 @@ export default function WebSocketTest() {
       
       <div className="mb-4">
         <p className="mb-2 font-bold text-base-content/75">连接状态: {connectionStatus}</p>
-        <div className="flex gap-4 ">
+        <div className="flex flex-col gap-2 mb-4">
+          <input
+            type="text"
+            value={wsUrl}
+            onChange={(e) => setWsUrl(e.target.value)}
+            className="border rounded-box px-4 py-2"
+            placeholder="输入WebSocket地址..."
+          />
+        </div>
+        <div className="flex gap-4">
           <button
             onClick={connectWebSocket}
             className="px-4 py-2 btn btn-success rounded-box hover:bg-success-focus shadow-lg border-neutral-content"
@@ -119,6 +146,9 @@ export default function WebSocketTest() {
         >
           发送
         </button>
+      </div>
+      <div className="card bg-base-100 mt-2 shadow-lg border-2 border-neutral">
+        <CameraScene />
       </div>
     </div>
   );
