@@ -3,22 +3,43 @@
 import usePlyStore from '@/app/store/plyStore';
 
 export default function PLYInput() {
-    const { setFileData, setLoading, setError } = usePlyStore();
+    const { setMeshData, setPointCloudData, setLoading, setError } = usePlyStore();
 
-    const handleFileChange = async (event) => {
+    const handleMeshFileChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
         try {
             setLoading(true);
             
-            // 读取文件内容
             const reader = new FileReader();
             reader.onload = (e) => {
-                setFileData(e.target.result);
+                setMeshData(e.target.result);
             };
             reader.onerror = (e) => {
-                setError('文件读取失败');
+                setError('Mesh 文件读取失败');
+            };
+            reader.readAsArrayBuffer(file);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handlePointCloudFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+            setLoading(true);
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setPointCloudData(e.target.result);
+            };
+            reader.onerror = (e) => {
+                setError('点云文件读取失败');
             };
             reader.readAsArrayBuffer(file);
         } catch (err) {
@@ -29,16 +50,30 @@ export default function PLYInput() {
     };
 
     return (
-        <div className="mx-4">
-            <legend className="fieldset-legend text-primary-content m-2">
-                选择 PLY 文件
-            </legend>
-            <input 
-                type="file" 
-                className="file-input file-input-secondary" 
-                accept=".ply"
-                onChange={handleFileChange}
-            />
+        <div className="mx-4 space-y-4">
+            <div>
+                <legend className="fieldset-legend text-primary-content m-2">
+                    选择 Mesh PLY 文件
+                </legend>
+                <input 
+                    type="file" 
+                    className="file-input file-input-secondary w-full" 
+                    accept=".ply"
+                    onChange={handleMeshFileChange}
+                />
+            </div>
+            
+            <div>
+                <legend className="fieldset-legend text-primary-content m-2">
+                    选择点云 PLY 文件
+                </legend>
+                <input 
+                    type="file" 
+                    className="file-input file-input-secondary w-full" 
+                    accept=".ply"
+                    onChange={handlePointCloudFileChange}
+                />
+            </div>
         </div>
     );
 }

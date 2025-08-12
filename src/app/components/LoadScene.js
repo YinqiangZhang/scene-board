@@ -6,8 +6,7 @@ import { Suspense, useMemo } from 'react';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader';
 import usePlyStore from '@/app/store/plyStore';
 
-
-function Model({ fileData }) {
+function MeshModel({ fileData }) {
     const geometry = useMemo(() => {
         if (!fileData) return null;
         const loader = new PLYLoader();
@@ -23,19 +22,45 @@ function Model({ fileData }) {
         <mesh geometry={geometry}>
             <meshStandardMaterial 
                 vertexColors={hasColors}
-                color={hasColors ? "#ffffff" : "#ffffff"}
+                color={hasColors ? "#ffffff" : "#00ff00"}
                 metalness={0.1}
                 roughness={0.5}
-                // wireframe={true}
+                side={2} // THREE.DoubleSide
                 transparent={true}
-                opacity={0.5}
+                opacity={0.15}
             />
         </mesh>
     );
 }
 
+function PointCloudModel({ fileData }) {
+    const geometry = useMemo(() => {
+        if (!fileData) return null;
+        const loader = new PLYLoader();
+        return loader.parse(fileData);
+    }, [fileData]);
+
+    if (!geometry) return null;
+
+    // 检查几何体是否包含颜色属性
+    const hasColors = geometry.attributes.color !== undefined;
+
+    return (
+        <points geometry={geometry}>
+            <pointsMaterial 
+                vertexColors={hasColors}
+                color={hasColors ? "#ffffff" : "#ff0000"}
+                size={0.02}
+                sizeAttenuation={true}
+                transparent={true}
+                opacity={0.5}
+            />
+        </points>
+    );
+}
+
 export default function LoadScene() {
-    const { fileData, isLoading, error } = usePlyStore();
+    const { meshData, pointCloudData, isLoading, error } = usePlyStore();
 
     if (error) {
         return (
@@ -54,7 +79,7 @@ export default function LoadScene() {
     }
 
     return (
-        <div className="card m-4 bg-base-300 h-96 rounded-box place-items-center shadow-lg">
+        <div className="card m-4 bg-base-300 h-256 rounded-box place-items-center shadow-lg">
             <Canvas shadows>
                 <ambientLight intensity={0.5} />
                 <directionalLight 
@@ -66,7 +91,8 @@ export default function LoadScene() {
                 />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <Suspense fallback={null}>
-                    <Model fileData={fileData} />
+                    {meshData && <MeshModel fileData={meshData} />}
+                    {pointCloudData && <PointCloudModel fileData={pointCloudData} />}
                 </Suspense>
                 <OrbitControls />
             </Canvas>

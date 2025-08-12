@@ -1,16 +1,19 @@
 import { create } from 'zustand';
 
 const usePlyStore = create((set) => ({
-    fileData: null,
+    meshData: null,
+    pointCloudData: null,
     isLoading: false,
     error: null,
     
-    setFileData: (data) => set({ fileData: data }),
+    setMeshData: (data) => set({ meshData: data }),
+    setPointCloudData: (data) => set({ pointCloudData: data }),
     setLoading: (loading) => set({ isLoading: loading }),
     setError: (error) => set({ error }),
     
     clearState: () => set({ 
-        fileData: null,
+        meshData: null,
+        pointCloudData: null,
         isLoading: false, 
         error: null 
     }),
