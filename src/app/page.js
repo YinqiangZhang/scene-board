@@ -32,6 +32,9 @@ export default function Home() {
             <Link href="/chatroom" className="btn btn-info m-2 shadow-lg">
                 查看聊天室
             </Link>
+            <Link href="/panorama" className="btn btn-success m-2 shadow-lg">
+                查看全景图
+            </Link>
           </div>
         </div>
         <div className="divider divider-secondary max-w-4xl">OR</div>
