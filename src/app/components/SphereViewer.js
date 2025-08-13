@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
-import { CompassPlugin } from '@photo-sphere-viewer/compass-plugin';
-import '@photo-sphere-viewer/compass-plugin/index.css';
+import { MapPlugin } from '@photo-sphere-viewer/map-plugin';
 import 'react-photo-sphere-viewer/dist/index.css'
+import '@photo-sphere-viewer/map-plugin/index.css';
 
 export default function PanoramaViewer() {
   const [isLoading, setIsLoading] = useState(true)
@@ -53,15 +53,20 @@ export default function PanoramaViewer() {
       )}
       
       <ReactPhotoSphereViewer
-        src="pano_image.jpg" // 您可以替换为实际的全景图片路径
+        src="pano_image/0001.jpg" // 您可以替换为实际的全景图片路径
         height="100%"
         width="100%"
         plugins={[
           [
-            CompassPlugin,
+            MapPlugin,
             {
-              size: '150px',
-            }
+              imageUrl: 'bim_map.jpg',
+              center: { x: 3588, y: 703 },
+              size: '250px',
+              rotation: '-133.5deg',
+              defaultZoom: 25,
+              shape: 'square',
+            },
           ]
         ]}
         defaultZoomLvl={50}
