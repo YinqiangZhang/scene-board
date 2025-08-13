@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
 import 'react-photo-sphere-viewer/dist/index.css'
+import { CompassPlugin } from '@photo-sphere-viewer/compass-plugin';
+import '@photo-sphere-viewer/compass-plugin/index.css';
 
 export default function PanoramaViewer() {
   const [isLoading, setIsLoading] = useState(true)
@@ -53,7 +55,18 @@ export default function PanoramaViewer() {
         src="pano_image.jpg" // 您可以替换为实际的全景图片路径
         height="100%"
         width="100%"
-        plugins={[]}
+        plugins={[
+          [
+            CompassPlugin,
+            {
+              size: '120px',
+              position: 'top-right',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              color: 'white',
+              fontSize: '12px'
+            }
+          ]
+        ]}
         defaultZoomLvl={0}
         moveSpeed={1.5}
         zoomSpeed={1}
