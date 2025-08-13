@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
-import 'react-photo-sphere-viewer/dist/index.css'
 import { CompassPlugin } from '@photo-sphere-viewer/compass-plugin';
 import '@photo-sphere-viewer/compass-plugin/index.css';
+import 'react-photo-sphere-viewer/dist/index.css'
 
 export default function PanoramaViewer() {
   const [isLoading, setIsLoading] = useState(true)
@@ -23,10 +23,8 @@ export default function PanoramaViewer() {
     }
     let pitch = event.data.pitch
     let yaw = event.data.yaw
-    // console.log('pitch:', pitch, 'yaw:', yaw)
     let texture_x = event.data.textureX
     let texture_y = event.data.textureY
-    // console.log('texture_x:', texture_x, 'texture_y:', texture_y)
     
     // set coordinates and show
     setCoordinates({
@@ -86,7 +84,7 @@ export default function PanoramaViewer() {
       {/* 坐标信息显示卡片 */}
       {showCoordinates && coordinates && (
         <div className="absolute top-4 right-4 z-20 animate-fade-in">
-          <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200 p-4 min-w-[280px]">
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200 p-4 min-w-[280px]">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-lg font-bold text-gray-800 flex items-center">
                 <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
@@ -104,24 +102,40 @@ export default function PanoramaViewer() {
             
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <div className="text-xs text-blue-600 font-medium mb-1">纹理坐标 X</div>
-                  <div className="text-lg font-mono font-bold text-blue-800">{coordinates.textureX}</div>
+                <div className="bg-blue-50 rounded-lg shadow-md p-3">
+                  <div className="text-sm text-blue-600 font-medium mb-1">
+                    <span className="font-bold">纹理坐标 X</span>
+                  </div>
+                  <div className="text-lg font-mono font-bold text-blue-800">
+                    <u>{coordinates.textureX}</u>
+                  </div>
                 </div>
-                <div className="bg-green-50 rounded-lg p-3">
-                  <div className="text-xs text-green-600 font-medium mb-1">纹理坐标 Y</div>
-                  <div className="text-lg font-mono font-bold text-green-800">{coordinates.textureY}</div>
+                <div className="bg-green-50 rounded-lg shadow-md p-3">
+                  <div className="text-sm text-green-600 font-medium mb-1">
+                    <span className="font-bold">纹理坐标 Y</span>
+                  </div>
+                  <div className="text-lg font-mono font-bold text-green-800">
+                    <u>{coordinates.textureY}</u>
+                  </div>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-purple-50 rounded-lg p-3">
-                  <div className="text-xs text-purple-600 font-medium mb-1">俯仰角 (Pitch)</div>
-                  <div className="text-lg font-mono font-bold text-purple-800">{coordinates.pitch}°</div>
+                <div className="bg-purple-50 rounded-lg shadow-md p-3">
+                  <div className="text-sm text-purple-600 font-medium mb-1">
+                    <span className="font-bold">俯仰角 (Pitch)</span>
+                  </div>
+                  <div className="text-lg font-mono font-bold text-purple-800">
+                    <u>{coordinates.pitch}°</u>
+                  </div>
                 </div>
-                <div className="bg-orange-50 rounded-lg p-3">
-                  <div className="text-xs text-orange-600 font-medium mb-1">偏航角 (Yaw)</div>
-                  <div className="text-lg font-mono font-bold text-orange-800">{coordinates.yaw}°</div>
+                <div className="bg-orange-50 rounded-lg shadow-md p-3">
+                  <div className="text-sm text-orange-600 font-medium mb-1">
+                    <span className="font-bold">偏航角 (Yaw)</span>
+                  </div>
+                  <div className="text-lg font-mono font-bold text-orange-800">
+                    <u>{coordinates.yaw}°</u>
+                  </div>
                 </div>
               </div>
             </div>
@@ -135,13 +149,13 @@ export default function PanoramaViewer() {
         </div>
       )}
       
-      <div className="text-center text-gray-500 mt-8 p-4 bg-base-300 rounded-lg">
-        <h3 className="font-semibold mb-2">使用说明</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
-          <div>🖱️ 鼠标拖拽：旋转视角</div>
-          <div>🔍 滚轮：缩放</div>
-          <div>📱 触摸：支持手势操作</div>
-          <div>🖱️ 右键点击：查看坐标</div>
+      <div className="glass shadow-lg text-center mt-8 p-4 bg-accent rounded-lg">
+        <h3 className="font-semibold text-xl mb-2">使用说明</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-md">
+          <div>🖱️ <span className="font-bold">鼠标拖拽</span>：旋转视角</div>
+          <div>🔍 <span className="font-bold">滚轮</span>：缩放</div>
+          <div>📱 <span className="font-bold">触摸</span>：支持手势操作</div>
+          <div>🖱️ <span className="font-bold">右键点击</span>：查看坐标</div>
         </div>
       </div>
     </div>
