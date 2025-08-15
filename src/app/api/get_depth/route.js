@@ -44,10 +44,8 @@ export async function POST(request) {
     // 确保坐标在有效范围内
     const clampedX = Math.max(0, Math.min(width - 1, x));
     const clampedY = Math.max(0, Math.min(height - 1, y));
-    console.log(clampedX, clampedY);
     
-    // 计算在二进制数据中的位置
-    // 假设深度数据是32位浮点数
+    // compute offset
     const bytesPerPixel = 4;
     const offset = (clampedY * width + clampedX) * bytesPerPixel;
     

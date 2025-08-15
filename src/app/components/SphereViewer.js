@@ -1,17 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef } from 'react'
 import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer'
 import { MapPlugin } from '@photo-sphere-viewer/map-plugin';
 import 'react-photo-sphere-viewer/dist/index.css'
 import '@photo-sphere-viewer/map-plugin/index.css';
+import usePanoStore from '@/app/store/panoStore';
 
 export default function PanoramaViewer() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [coordinates, setCoordinates] = useState(null)
-  const [showCoordinates, setShowCoordinates] = useState(false)
-  const [depth, setDepth] = useState(null)
-  const [isLoadingDepth, setIsLoadingDepth] = useState(false)
+  const { isLoading, coordinates, showCoordinates, depth, isLoadingDepth, 
+    setIsLoading, setCoordinates, setShowCoordinates, setDepth, setIsLoadingDepth
+  } = usePanoStore();
+  
+  const timeoutRef = useRef(null);
 
   const handleReady = () => {
     setIsLoading(false)
@@ -21,7 +22,6 @@ export default function PanoramaViewer() {
   // 获取深度数据的函数
   const fetchDepth = async (imageName, pitch, yaw) => {
     try {
-      setIsLoadingDepth(true)
       const response = await fetch('/api/get_depth', {
         method: 'POST',
         headers: {
@@ -35,25 +35,19 @@ export default function PanoramaViewer() {
       })
 
       if (!response.ok) {
-        console.log(response)
-        // throw new Error('深度数据获取失败')
+        console.log('深度数据获取失败:', response)
       }
 
       const data = await response.json()
       if (data.success) {
-        setDepth(data.depth)
         return data.depth
       } else {
-        // console.error('深度数据无效:', data.error)
-        setDepth(null)
+        console.log('深度数据无效:', data.error)
         return null
       }
     } catch (error) {
-      // console.error('获取深度数据时出错:', error)
-      setDepth(null)
+      console.log('获取深度数据时出错:', error)
       return null
-    } finally {
-      setIsLoadingDepth(false)
     }
   }
 
@@ -80,14 +74,20 @@ export default function PanoramaViewer() {
     })
     setShowCoordinates(true)
     
-    // 获取深度数据
+    // 设置加载状态并获取深度数据
+    setIsLoadingDepth(true)
     const depthValue = await fetchDepth('0000', pitchDeg, yawDeg)
+    setIsLoadingDepth(false)
+    setDepth(depthValue)
     
-    // 3秒后自动隐藏
-    setTimeout(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    
+    timeoutRef.current = setTimeout(() => {
       setShowCoordinates(false)
       setDepth(null)
-    }, 5000)
+    }, 3000)
   }
 
   return (
