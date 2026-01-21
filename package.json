@@ -14,7 +14,7 @@
     "@photo-sphere-viewer/map-plugin": "^5.13.4",
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
-    "next": "^15.4.6",
+    "next": "15.4.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-photo-sphere-viewer": "^6.2.3",
